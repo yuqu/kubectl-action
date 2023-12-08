@@ -1,5 +1,5 @@
 FROM alpine:3.17
-MAINTAINER Serhiy Mitrovtsiy <mitrovtsiy@ukr.net>
+MAINTAINER Yucel Okcu <yucel.n.okcu@gmail.com>
 
 ARG KUBE_VERSION="v1.28.4"
 
