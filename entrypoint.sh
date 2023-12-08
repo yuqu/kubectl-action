@@ -9,7 +9,10 @@ if [ ! -d "$HOME/.kube" ]; then
 fi
 
 if [ ! -f "$HOME/.kube/config" ]; then
-    if [ ! -z "${KUBE_CONFIG}" ]; then
+    if [ ! -z "${AWS_CLUSTER_NAME}" ]; then
+          aws eks update-kubeconfig --cluster ${AWS_CLUSTER_NAME}
+          echo "Current context: $(kubectl config current-context)"
+    elif [ ! -z "${KUBE_CONFIG}" ]; then
         echo "$KUBE_CONFIG" | base64 -d > $HOME/.kube/config
 
         if [ ! -z "${KUBE_CONTEXT}" ]; then
@@ -38,11 +41,13 @@ if [ ! -f "$HOME/.kube/config" ]; then
 fi
 
 if [ -z "$dest" ]; then
+    echo "Current context: $(kubectl config current-context)"
     kubectl $*
 else
     echo "$dest<<EOF" >> $GITHUB_ENV
+    echo "Current context: $(kubectl config current-context)" >> $GITHUB_ENV
     kubectl $* >> $GITHUB_ENV
     echo "EOF" >> $GITHUB_ENV
-    
+
     echo "::add-mask::$dest"
 fi
