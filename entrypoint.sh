@@ -10,7 +10,7 @@ fi
 
 if [ ! -f "$HOME/.kube/config" ]; then
     if [ ! -z "${AWS_CLUSTER_NAME}" ]; then
-          aws eks update-kubeconfig --cluster ${AWS_CLUSTER_NAME}
+          aws eks update-kubeconfig --name ${AWS_CLUSTER_NAME}
           echo "Current context: $(kubectl config current-context)"
     elif [ ! -z "${KUBE_CONFIG}" ]; then
         echo "$KUBE_CONFIG" | base64 -d > $HOME/.kube/config
